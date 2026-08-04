@@ -138,7 +138,7 @@ export default function App() {
       <div className="container">
         <header className="header">
           <div>
-            <h1 className="title">Hackathon Best Idea Voting</h1>
+            <h1 className="title">Innovation Challenge Voting</h1>
             <div className="subtitle">
               Vote for the BEST idea · 4 teams · 2 votes per person · no self-voting
             </div>
