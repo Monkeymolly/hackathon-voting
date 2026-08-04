@@ -51,7 +51,7 @@ export default function App() {
   const canSubmit = ownGroup && vote1 && vote2 && !loading && !hasVoted;
 
   useEffect(() => {
-    const votedFlag = localStorage.getItem("hackathon_voted");
+    const votedFlag = localStorage.getItem("hackathon_voted2");
 
     if (votedFlag === "true") {
       setHasVoted(true);
@@ -119,7 +119,7 @@ export default function App() {
       return;
     }
 
-    localStorage.setItem("hackathon_voted", "true");
+    localStorage.setItem("hackathon_voted2", "true");
     setHasVoted(true);
     setSubmitted(true);
     fetchVotes();
