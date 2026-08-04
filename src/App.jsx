@@ -264,7 +264,7 @@ function VotePage({
           <br />
 
           <button className="btn btn-green" disabled={!canSubmit} onClick={submitVote}>
-            {loading ? "Submitting..." : "Submit anonymously"}
+            {loading ? "Submitting..." : "Submit"}
           </button>
 
           <button className="btn btn-secondary" style={{ marginLeft: 12 }} onClick={resetForm}>
