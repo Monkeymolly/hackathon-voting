@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = "https://kyrunrldlaomycezddtr.supabase.co";
@@ -33,7 +33,10 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
   const [error, setError] = useState("");
-
+  const [showConfetti, setShowConfetti] = useState(false);
+  const previousVoteCount = useRef(0);
+  const isFirstLoad = useRef(true);
+  
   const availableChoices = useMemo(() => {
     if (!ownGroup) return [];
     return [...GROUPS.filter((group) => group !== ownGroup), ABSTAIN];
@@ -72,15 +75,25 @@ export default function App() {
   }, []);
 
   async function fetchVotes() {
-    const { data, error } = await supabase
-      .from("votes")
-      .select("*")
-      .order("created_at", { ascending: false });
+  const { data, error } = await supabase
+    .from("votes")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-    if (!error && data) {
-      setVotes(data);
+  if (!error && data) {
+    if (!isFirstLoad.current && data.length > previousVoteCount.current) {
+      setShowConfetti(true);
+
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 1800);
     }
+
+    previousVoteCount.current = data.length;
+    isFirstLoad.current = false;
+    setVotes(data);
   }
+}
 
   async function submitVote() {
     if (!canSubmit) return;
@@ -168,7 +181,8 @@ export default function App() {
             results={results}
             maxVotes={maxVotes}
             totalValidVotes={totalValidVotes}
-            winner={winner}
+             winner={winner}
+            showConfetti={showConfetti}
           />
         )}
       </div>
@@ -295,29 +309,43 @@ function VoteSelector({ title, value, setValue, choices }) {
   );
 }
 
-function ResultsPage({ votes, results, maxVotes, totalValidVotes, winner }) {
+function ResultsPage({ votes, results, maxVotes, totalValidVotes, winner, showConfetti }) {
+  const highestVotes = Math.max(...Object.values(results));
+  const hasAnyVotes = highestVotes > 0;
+
   return (
     <>
-      <div className="card">
-        <span className="badge">Live Result Board</span>
-        <h2>Voting Results</h2>
+      <div className="result-card-wrap">
+        {showConfetti && <ConfettiRain />}
 
-        {GROUPS.map((group) => {
-          const count = results[group];
-          const width = Math.round((count / maxVotes) * 100);
+        <div className="card">
+          <span className="badge">Live Result Board</span>
+          <h2>Voting Results</h2>
 
-          return (
-            <div className="result-row" key={group}>
-              <div className="result-top">
-                <span>{group}</span>
-                <span>{count}</span>
+          {GROUPS.map((group) => {
+            const count = results[group];
+            const width = Math.round((count / maxVotes) * 100);
+            const isWinner = hasAnyVotes && count === highestVotes;
+
+            return (
+              <div className={isWinner ? "result-row winner-row" : "result-row"} key={group}>
+                <div className="result-top">
+                  <span className="result-group-name">
+                    <span className="group-label">{group}</span>
+                    {isWinner && <GoldMedal />}
+                  </span>
+                  <span>{count}</span>
+                </div>
+                <div className="bar-bg">
+                  <div
+                    className={isWinner ? "bar winner-bar" : "bar"}
+                    style={{ width: `${width}%` }}
+                  />
+                </div>
               </div>
-              <div className="bar-bg">
-                <div className="bar" style={{ width: `${width}%` }} />
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
       <div className="summary-grid">
@@ -337,5 +365,27 @@ function ResultsPage({ votes, results, maxVotes, totalValidVotes, winner }) {
         </div>
       </div>
     </>
+  );
+}
+function GoldMedal() {
+  return (
+    <span className="gold-medal" aria-label="Gold medal">
+      <span className="medal-ribbon ribbon-left"></span>
+      <span className="medal-ribbon ribbon-right"></span>
+      <span className="medal-face">
+        <span className="medal-shine"></span>
+        <span className="medal-number">1</span>
+      </span>
+    </span>
+  );
+}
+
+function ConfettiRain() {
+  return (
+    <div className="confetti-layer">
+      {Array.from({ length: 18 }).map((_, index) => (
+        <span key={index} className={`confetti-piece confetti-piece-${index + 1}`}></span>
+      ))}
+    </div>
   );
 }
