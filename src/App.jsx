@@ -140,7 +140,7 @@ export default function App() {
           <div>
             <h1 className="title">Hackathon Voting</h1>
             <div className="subtitle">
-              Vote for the BEST idea · 4 teams · 2 votes per person · no self-voting
+              vote for the BEST idea · 4 teams · 2 votes per person · no self-voting
             </div>
           </div>
 
