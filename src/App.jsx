@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = "https://kyrunrldlaomycezddtr.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_k4JjSSLmUKRhTGpUV0wbcQ_ubhFXojx";
+const SUPABASE_ANON_KEY = "这里替换成你的Publishable Key或Anon Key";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -33,10 +33,11 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
   const [error, setError] = useState("");
+
   const [showConfetti, setShowConfetti] = useState(false);
   const previousVoteCount = useRef(0);
   const isFirstLoad = useRef(true);
-  
+
   const availableChoices = useMemo(() => {
     if (!ownGroup) return [];
     return [...GROUPS.filter((group) => group !== ownGroup), ABSTAIN];
@@ -50,7 +51,8 @@ export default function App() {
   const canSubmit = ownGroup && vote1 && vote2 && !loading && !hasVoted;
 
   useEffect(() => {
-    const votedFlag = localStorage.getItem("hackathon_voted_01");
+    const votedFlag = localStorage.getItem("hackathon_voted_20260805");
+
     if (votedFlag === "true") {
       setHasVoted(true);
       setSubmitted(true);
@@ -75,25 +77,25 @@ export default function App() {
   }, []);
 
   async function fetchVotes() {
-  const { data, error } = await supabase
-    .from("votes")
-    .select("*")
-    .order("created_at", { ascending: false });
+    const { data, error } = await supabase
+      .from("votes")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-  if (!error && data) {
-    if (!isFirstLoad.current && data.length > previousVoteCount.current) {
-      setShowConfetti(true);
+    if (!error && data) {
+      if (!isFirstLoad.current && data.length > previousVoteCount.current) {
+        setShowConfetti(true);
 
-      setTimeout(() => {
-        setShowConfetti(false);
-      }, 1800);
+        setTimeout(() => {
+          setShowConfetti(false);
+        }, 1800);
+      }
+
+      previousVoteCount.current = data.length;
+      isFirstLoad.current = false;
+      setVotes(data);
     }
-
-    previousVoteCount.current = data.length;
-    isFirstLoad.current = false;
-    setVotes(data);
   }
-}
 
   async function submitVote() {
     if (!canSubmit) return;
@@ -117,7 +119,7 @@ export default function App() {
       return;
     }
 
-    localStorage.setItem("hackathon_voted_01", "true");
+    localStorage.setItem("hackathon_voted_20260805", "true");
     setHasVoted(true);
     setSubmitted(true);
     fetchVotes();
@@ -181,7 +183,7 @@ export default function App() {
             results={results}
             maxVotes={maxVotes}
             totalValidVotes={totalValidVotes}
-             winner={winner}
+            winner={winner}
             showConfetti={showConfetti}
           />
         )}
@@ -210,7 +212,7 @@ function VotePage({
     return (
       <div className="card success">
         <h2>Thank you for voting!</h2>
-        <p className="notice">Your vote has been submitted anonymously.</p>
+        <p className="notice">Thank you. Your vote has been recorded.</p>
 
         {hasVoted && (
           <p className="notice">
@@ -316,7 +318,7 @@ function ResultsPage({ votes, results, maxVotes, totalValidVotes, winner, showCo
   return (
     <>
       <div className="result-card-wrap">
-        {showConfetti && <ConfettiRain />}
+        {showConfetti && <PremiumConfetti />}
 
         <div className="card">
           <span className="badge">Live Result Board</span>
@@ -336,6 +338,7 @@ function ResultsPage({ votes, results, maxVotes, totalValidVotes, winner, showCo
                   </span>
                   <span>{count}</span>
                 </div>
+
                 <div className="bar-bg">
                   <div
                     className={isWinner ? "bar winner-bar" : "bar"}
@@ -367,6 +370,7 @@ function ResultsPage({ votes, results, maxVotes, totalValidVotes, winner, showCo
     </>
   );
 }
+
 function GoldMedal() {
   return (
     <span className="gold-medal" aria-label="Gold medal">
@@ -380,11 +384,14 @@ function GoldMedal() {
   );
 }
 
-function ConfettiRain() {
+function PremiumConfetti() {
   return (
-    <div className="confetti-layer">
-      {Array.from({ length: 18 }).map((_, index) => (
-        <span key={index} className={`confetti-piece confetti-piece-${index + 1}`}></span>
+    <div className="premium-confetti-layer">
+      {Array.from({ length: 36 }).map((_, index) => (
+        <span
+          key={index}
+          className={`premium-confetti-piece premium-confetti-piece-${index + 1}`}
+        ></span>
       ))}
     </div>
   );
