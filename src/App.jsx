@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = "https://kyrunrldlaomycezddtr.supabase.co";
-const SUPABASE_ANON_KEY = "这里替换成你的Publishable Key或Anon Key";
+const SUPABASE_ANON_KEY = "sb_publishable_k4JjSSLmUKRhTGpUV0wbcQ_ubhFXojx";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
