@@ -363,7 +363,7 @@ function ResultsPage({ votes, results, maxVotes, totalValidVotes, winner, showCo
         </div>
 
         <div className="summary-box">
-          <div className="summary-label">Current leader</div>
+          <div className="summary-label">Winner</div>
           <div className="summary-value">{winner ? winner[0] : "-"}</div>
         </div>
       </div>
