@@ -304,3 +304,177 @@ button {
 }
 
 /* Premium confetti
+/* Mobile UI fix: prevent overflow on WeChat / mobile browser */
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  overflow-x: hidden;
+}
+
+/* Better responsive header */
+
+@media (max-width: 900px) {
+  .page {
+    padding: 16px;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .title {
+    font-size: 42px;
+    line-height: 1.08;
+    word-break: normal;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    line-height: 1.45;
+  }
+
+  .tab-group {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .tab-group .btn {
+    width: 100%;
+    min-height: 64px;
+    font-size: 18px;
+    border-radius: 22px;
+  }
+
+  .card {
+    padding: 22px;
+    border-radius: 26px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .card h2 {
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .notice {
+    font-size: 18px;
+    line-height: 1.55;
+  }
+
+  /* Key fix: group buttons become 2 columns on mobile */
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .group-choice {
+    min-height: 86px;
+    padding: 18px;
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small phone optimization */
+
+@media (max-width: 480px) {
+  .page {
+    padding: 14px;
+  }
+
+  .title {
+    font-size: 36px;
+    line-height: 1.08;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .tab-group .btn {
+    min-height: 58px;
+    font-size: 16px;
+    padding: 10px 14px;
+  }
+
+  .card {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  .card h2 {
+    font-size: 26px;
+  }
+
+  .notice {
+    font-size: 16px;
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .group-choice {
+    min-height: 78px;
+    padding: 14px;
+    font-size: 20px;
+    border-radius: 18px;
+  }
+
+  .choice {
+    font-size: 18px;
+    padding: 16px;
+  }
+
+  .result-top {
+    font-size: 18px;
+  }
+
+  .group-label {
+    min-width: 86px;
+  }
+
+  .gold-medal {
+    width: 34px;
+    height: 42px;
+  }
+
+  .medal-face {
+    width: 32px;
+    height: 32px;
+  }
+
+  .medal-number {
+    font-size: 17px;
+  }
+}
