@@ -2,8 +2,11 @@
   box-sizing: border-box;
 }
 
+html,
 body {
+  width: 100%;
   margin: 0;
+  overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
   background: #020617;
 }
@@ -13,15 +16,19 @@ button {
 }
 
 .page {
+  width: 100%;
   min-height: 100vh;
+  overflow-x: hidden;
   background: linear-gradient(135deg, #020617, #172554, #0f172a);
   color: white;
   padding: 24px;
 }
 
 .container {
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
 .header {
@@ -36,11 +43,13 @@ button {
   font-size: 36px;
   font-weight: 800;
   margin: 0;
+  line-height: 1.1;
 }
 
 .subtitle {
   color: #cbd5e1;
   margin-top: 8px;
+  line-height: 1.45;
 }
 
 .tab-group {
@@ -77,22 +86,24 @@ button {
 }
 
 .card {
+  width: 100%;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 28px;
   padding: 24px;
   margin-bottom: 20px;
+  overflow: hidden;
 }
 
 .grid-4 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
 }
 
 .grid-2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -125,6 +136,11 @@ button {
   padding: 18px;
 }
 
+.result-card-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
 .result-row {
   margin-bottom: 18px;
 }
@@ -132,9 +148,28 @@ button {
 .result-top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 8px;
+}
+
+.result-group-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.group-label {
+  display: inline-block;
+  min-width: 120px;
+}
+
+.winner-row .result-top {
+  color: #fff7cc;
+  text-shadow: 0 0 12px rgba(250, 204, 21, 0.25);
 }
 
 .bar-bg {
@@ -148,6 +183,11 @@ button {
   height: 100%;
   background: linear-gradient(90deg, #22d3ee, #34d399);
   border-radius: 999px;
+}
+
+.winner-bar {
+  background: linear-gradient(90deg, #facc15, #f59e0b, #34d399);
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.3);
 }
 
 .success {
@@ -172,7 +212,7 @@ button {
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -193,37 +233,7 @@ button {
   margin-top: 6px;
 }
 
-/* Results card wrapper */
-
-.result-card-wrap {
-  position: relative;
-  overflow: hidden;
-}
-
-/* Group name and medal alignment */
-
-.result-group-name {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.group-label {
-  display: inline-block;
-  min-width: 120px;
-}
-
-.winner-row .result-top {
-  color: #fff7cc;
-  text-shadow: 0 0 12px rgba(250, 204, 21, 0.25);
-}
-
-.winner-bar {
-  background: linear-gradient(90deg, #facc15, #f59e0b, #34d399);
-  box-shadow: 0 0 18px rgba(250, 204, 21, 0.3);
-}
-
-/* 3D gold medal, placed after Group name */
+/* 3D gold medal */
 
 .gold-medal {
   position: relative;
@@ -303,27 +313,126 @@ button {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-/* Premium confetti
-/* Mobile UI fix: prevent overflow on WeChat / mobile browser */
+/* Premium confetti */
 
-html,
-body {
-  width: 100%;
-  overflow-x: hidden;
+.premium-confetti-layer {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
 }
 
-.page {
-  width: 100%;
-  overflow-x: hidden;
+.premium-confetti-piece {
+  position: absolute;
+  top: -24px;
+  opacity: 0;
+  animation-name: premium-confetti-fall;
+  animation-duration: 1.8s;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.35, 1);
+  animation-fill-mode: forwards;
 }
 
-.container {
-  width: 100%;
-  max-width: 1100px;
-  overflow-x: hidden;
+.premium-confetti-piece:nth-child(3n + 1) {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
 }
 
-/* Better responsive header */
+.premium-confetti-piece:nth-child(3n + 2) {
+  width: 9px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+.premium-confetti-piece:nth-child(3n) {
+  width: 18px;
+  height: 4px;
+  border-radius: 999px;
+}
+
+.premium-confetti-piece:nth-child(6n + 1) {
+  background: #facc15;
+}
+
+.premium-confetti-piece:nth-child(6n + 2) {
+  background: #22d3ee;
+}
+
+.premium-confetti-piece:nth-child(6n + 3) {
+  background: #34d399;
+}
+
+.premium-confetti-piece:nth-child(6n + 4) {
+  background: #fb7185;
+}
+
+.premium-confetti-piece:nth-child(6n + 5) {
+  background: #a78bfa;
+}
+
+.premium-confetti-piece:nth-child(6n) {
+  background: #f97316;
+}
+
+.premium-confetti-piece-1 { left: 6%; animation-delay: 0.02s; --drift: 18px; --spin: 160deg; }
+.premium-confetti-piece-2 { left: 9%; animation-delay: 0.18s; --drift: -22px; --spin: 220deg; }
+.premium-confetti-piece-3 { left: 12%; animation-delay: 0.08s; --drift: 30px; --spin: 140deg; }
+.premium-confetti-piece-4 { left: 16%; animation-delay: 0.24s; --drift: -18px; --spin: 260deg; }
+.premium-confetti-piece-5 { left: 19%; animation-delay: 0.12s; --drift: 24px; --spin: 180deg; }
+.premium-confetti-piece-6 { left: 23%; animation-delay: 0.30s; --drift: -28px; --spin: 240deg; }
+.premium-confetti-piece-7 { left: 27%; animation-delay: 0.04s; --drift: 20px; --spin: 180deg; }
+.premium-confetti-piece-8 { left: 31%; animation-delay: 0.22s; --drift: -20px; --spin: 260deg; }
+.premium-confetti-piece-9 { left: 34%; animation-delay: 0.10s; --drift: 32px; --spin: 160deg; }
+.premium-confetti-piece-10 { left: 38%; animation-delay: 0.28s; --drift: -26px; --spin: 220deg; }
+.premium-confetti-piece-11 { left: 41%; animation-delay: 0.16s; --drift: 18px; --spin: 200deg; }
+.premium-confetti-piece-12 { left: 45%; animation-delay: 0.34s; --drift: -30px; --spin: 280deg; }
+.premium-confetti-piece-13 { left: 49%; animation-delay: 0.06s; --drift: 22px; --spin: 150deg; }
+.premium-confetti-piece-14 { left: 52%; animation-delay: 0.20s; --drift: -24px; --spin: 260deg; }
+.premium-confetti-piece-15 { left: 56%; animation-delay: 0.11s; --drift: 28px; --spin: 190deg; }
+.premium-confetti-piece-16 { left: 59%; animation-delay: 0.26s; --drift: -18px; --spin: 230deg; }
+.premium-confetti-piece-17 { left: 63%; animation-delay: 0.14s; --drift: 24px; --spin: 170deg; }
+.premium-confetti-piece-18 { left: 66%; animation-delay: 0.32s; --drift: -26px; --spin: 260deg; }
+.premium-confetti-piece-19 { left: 70%; animation-delay: 0.03s; --drift: 20px; --spin: 180deg; }
+.premium-confetti-piece-20 { left: 73%; animation-delay: 0.19s; --drift: -24px; --spin: 240deg; }
+.premium-confetti-piece-21 { left: 76%; animation-delay: 0.09s; --drift: 30px; --spin: 150deg; }
+.premium-confetti-piece-22 { left: 80%; animation-delay: 0.27s; --drift: -20px; --spin: 260deg; }
+.premium-confetti-piece-23 { left: 83%; animation-delay: 0.15s; --drift: 22px; --spin: 200deg; }
+.premium-confetti-piece-24 { left: 87%; animation-delay: 0.36s; --drift: -28px; --spin: 280deg; }
+.premium-confetti-piece-25 { left: 91%; animation-delay: 0.05s; --drift: 18px; --spin: 180deg; }
+.premium-confetti-piece-26 { left: 94%; animation-delay: 0.23s; --drift: -20px; --spin: 240deg; }
+.premium-confetti-piece-27 { left: 97%; animation-delay: 0.13s; --drift: -34px; --spin: 190deg; }
+.premium-confetti-piece-28 { left: 15%; animation-delay: 0.42s; --drift: 28px; --spin: 220deg; }
+.premium-confetti-piece-29 { left: 29%; animation-delay: 0.46s; --drift: -30px; --spin: 260deg; }
+.premium-confetti-piece-30 { left: 44%; animation-delay: 0.40s; --drift: 24px; --spin: 180deg; }
+.premium-confetti-piece-31 { left: 58%; animation-delay: 0.48s; --drift: -26px; --spin: 260deg; }
+.premium-confetti-piece-32 { left: 72%; animation-delay: 0.44s; --drift: 30px; --spin: 200deg; }
+.premium-confetti-piece-33 { left: 86%; animation-delay: 0.50s; --drift: -24px; --spin: 240deg; }
+.premium-confetti-piece-34 { left: 24%; animation-delay: 0.56s; --drift: 24px; --spin: 180deg; }
+.premium-confetti-piece-35 { left: 61%; animation-delay: 0.54s; --drift: -22px; --spin: 260deg; }
+.premium-confetti-piece-36 { left: 78%; animation-delay: 0.58s; --drift: 28px; --spin: 220deg; }
+
+@keyframes premium-confetti-fall {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg) scale(0.9);
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 0.95;
+  }
+
+  75% {
+    opacity: 0.85;
+  }
+
+  100% {
+    transform: translateY(360px) translateX(var(--drift)) rotate(var(--spin)) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Mobile layout */
 
 @media (max-width: 900px) {
   .page {
@@ -343,7 +452,6 @@ body {
   .title {
     font-size: 42px;
     line-height: 1.08;
-    word-break: normal;
   }
 
   .subtitle {
@@ -368,8 +476,6 @@ body {
   .card {
     padding: 22px;
     border-radius: 26px;
-    width: 100%;
-    overflow: hidden;
   }
 
   .card h2 {
@@ -382,7 +488,6 @@ body {
     line-height: 1.55;
   }
 
-  /* Key fix: group buttons become 2 columns on mobile */
   .grid-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
@@ -404,15 +509,13 @@ body {
   }
 }
 
-/* Small phone optimization */
-
 @media (max-width: 480px) {
   .page {
     padding: 14px;
   }
 
   .title {
-    font-size: 36px;
+    font-size: 34px;
     line-height: 1.08;
   }
 
