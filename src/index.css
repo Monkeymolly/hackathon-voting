@@ -193,38 +193,14 @@ button {
   margin-top: 6px;
 }
 
-@media (max-width: 768px) {
-  .page {
-    padding: 16px;
-  }
+/* Results card wrapper */
 
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .title {
-    font-size: 28px;
-  }
-
-  .grid-4,
-  .grid-2,
-  .summary-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .tab-group {
-    width: 100%;
-  }
-
-  .tab-group .btn {
-    flex: 1;
-  }
-}
 .result-card-wrap {
   position: relative;
   overflow: hidden;
 }
+
+/* Group name and medal alignment */
 
 .result-group-name {
   display: inline-flex;
@@ -234,6 +210,7 @@ button {
 
 .group-label {
   display: inline-block;
+  min-width: 120px;
 }
 
 .winner-row .result-top {
@@ -243,10 +220,11 @@ button {
 
 .winner-bar {
   background: linear-gradient(90deg, #facc15, #f59e0b, #34d399);
-  box-shadow: 0 0 18px rgba(250, 204, 21, 0.28);
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.3);
 }
 
 /* 3D gold medal, placed after Group name */
+
 .gold-medal {
   position: relative;
   display: inline-flex;
@@ -286,7 +264,13 @@ button {
   height: 40px;
   border-radius: 999px;
   background:
-    radial-gradient(circle at 32% 28%, #fff7b3 0%, #fde047 16%, #facc15 36%, #d97706 78%);
+    radial-gradient(
+      circle at 32% 28%,
+      #fff7b3 0%,
+      #fde047 16%,
+      #facc15 36%,
+      #d97706 78%
+    );
   border: 3px solid #fff2a8;
   box-shadow:
     inset -5px -7px 10px rgba(120, 53, 15, 0.35),
@@ -319,145 +303,4 @@ button {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-/* Minimal falling confetti */
-.confetti-layer {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  overflow: hidden;
-}
-
-.confetti-piece {
-  position: absolute;
-  top: -28px;
-  width: 9px;
-  height: 18px;
-  border-radius: 3px;
-  opacity: 0;
-  animation: gentle-confetti-fall 1.8s ease-in forwards;
-}
-
-.confetti-piece-1 {
-  left: 8%;
-  background: #facc15;
-  animation-delay: 0.02s;
-}
-
-.confetti-piece-2 {
-  left: 14%;
-  background: #22d3ee;
-  animation-delay: 0.18s;
-}
-
-.confetti-piece-3 {
-  left: 20%;
-  background: #34d399;
-  animation-delay: 0.08s;
-}
-
-.confetti-piece-4 {
-  left: 27%;
-  background: #fb7185;
-  animation-delay: 0.24s;
-}
-
-.confetti-piece-5 {
-  left: 34%;
-  background: #a78bfa;
-  animation-delay: 0.14s;
-}
-
-.confetti-piece-6 {
-  left: 41%;
-  background: #f97316;
-  animation-delay: 0.3s;
-}
-
-.confetti-piece-7 {
-  left: 49%;
-  background: #facc15;
-  animation-delay: 0.04s;
-}
-
-.confetti-piece-8 {
-  left: 56%;
-  background: #22d3ee;
-  animation-delay: 0.2s;
-}
-
-.confetti-piece-9 {
-  left: 63%;
-  background: #34d399;
-  animation-delay: 0.1s;
-}
-
-.confetti-piece-10 {
-  left: 70%;
-  background: #fb7185;
-  animation-delay: 0.26s;
-}
-
-.confetti-piece-11 {
-  left: 77%;
-  background: #a78bfa;
-  animation-delay: 0.16s;
-}
-
-.confetti-piece-12 {
-  left: 84%;
-  background: #f97316;
-  animation-delay: 0.32s;
-}
-
-.confetti-piece-13 {
-  left: 11%;
-  background: #eab308;
-  animation-delay: 0.38s;
-}
-
-.confetti-piece-14 {
-  left: 31%;
-  background: #06b6d4;
-  animation-delay: 0.42s;
-}
-
-.confetti-piece-15 {
-  left: 53%;
-  background: #10b981;
-  animation-delay: 0.36s;
-}
-
-.confetti-piece-16 {
-  left: 68%;
-  background: #ec4899;
-  animation-delay: 0.46s;
-}
-
-.confetti-piece-17 {
-  left: 88%;
-  background: #8b5cf6;
-  animation-delay: 0.4s;
-}
-
-.confetti-piece-18 {
-  left: 94%;
-  background: #f59e0b;
-  animation-delay: 0.5s;
-}
-
-@keyframes gentle-confetti-fall {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0;
-  }
-
-  12% {
-    opacity: 0.95;
-  }
-
-  100% {
-    transform: translateY(520px) rotate(360deg);
-    opacity: 0;
-  }
-}
+/* Premium confetti
